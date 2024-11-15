@@ -49,7 +49,7 @@ public class DAOImpl implements DAO {
             ResultSet rs = ps.executeQuery(sql);
             while (rs.next()) {
                 offerArrayList.add(new Offer(rs.getInt("id"), rs.getString("name"),
-                        rs.getString("description"), rs.getInt("state")));
+                        rs.getString("description"), rs.getString("state")));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -69,8 +69,10 @@ public class DAOImpl implements DAO {
             ResultSet rs = ps.executeQuery(sql);
             if (rs.next()) {
                 offer = new Offer(rs.getInt("id"), rs.getString("name"),
-                        rs.getString("description"), rs.getInt("state"));
+                        rs.getString("description"), rs.getString("state"));
             }
+            ps.close();
+            closeConnection();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -83,7 +85,8 @@ public class DAOImpl implements DAO {
         try {
             setConnection();
             PreparedStatement ps = connection.prepareStatement(sql);
-
+            ps.setString(1, offer.getName());
+            ps.setString(2, offer.getDescription());
         } catch (SQLException e) {
             e.printStackTrace();
         }
